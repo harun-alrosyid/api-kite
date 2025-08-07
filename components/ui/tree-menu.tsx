@@ -95,23 +95,56 @@ interface CollectionItem {
 }
 
 interface TreeMenuProps {
-  item: CollectionItem ;
+  item: CollectionItem;
 }
 
 function TreeMenu({ item }: TreeMenuProps) {
-  console.log(item);
 
-  
+  if (!("info" in item)) {
+    const data = item as Item;
+ 
+    if (!("request" in data)) {
 
+      const datas = item as Item;
+      return (
+        <Collapsible
+          className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
+        >
+          <CollapsibleTrigger asChild>
+            <SidebarMenuButton>
+              <DropdownMenu>
+                <ChevronRight className="transition-transform" />
+                {datas.name}
+                <DropdownMenuTrigger asChild>
+                  <MoreHorizontal className="absolute right-0" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side={"right"}
+                  align={"start"}
+                  className="min-w-56 rounded-lg"
+                >
+                  <DropdownMenuItem asChild>
+                    <a href={"item.url"}>{"item"}</a>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuButton>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pr-0 mr-0">
+            <SidebarMenuSub className="pr-0 mr-0">
+              {item?.item &&
+                item?.item?.length > 0 &&
+                item.item.map((subItem, index) => (
+                  <TreeMenu key={index} item={subItem as CollectionItem} />
+                ))}
+            </SidebarMenuSub>
+          </CollapsibleContent>
+        </Collapsible>
+      );
+    }
 
-
-  const [name, ...items] = Array.isArray(item) ? item : [item];
-
-  if (!("info" in item) ) {
-    const data : Item = item;
     return (
       <SidebarMenuButton
-        isActive={name === "button.tsx"}
         className="data-[active=true]:bg-transparent truncate"
       >
         <DropdownMenu>
@@ -132,63 +165,6 @@ function TreeMenu({ item }: TreeMenuProps) {
       </SidebarMenuButton>
     );
   }
-
-  if (!("info" in item) ) {
-    const data : Item = item;
-
-    
-    if (!("request" in data) ) {
-    const datas : Item = item;
-    return (
-      <SidebarMenuButton
-        isActive={name === "button.tsx"}
-        className="data-[active=true]:bg-transparent truncate"
-      >
-        <DropdownMenu>
-          <Folder/>
-          {`${datas.name}`}
-          <DropdownMenuTrigger asChild>
-            <MoreHorizontal className=" absolute right-0" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            side={"right"}
-            align={"start"}
-            className="min-w-56 rounded-lg"
-          >
-            <DropdownMenuItem asChild>
-              <a href={"item.url"}>{"item"}</a>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuButton>
-    );
-  }
-
-
-    return (
-      <SidebarMenuButton
-        isActive={name === "button.tsx"}
-        className="data-[active=true]:bg-transparent truncate"
-      >
-        <DropdownMenu>
-          {`${data.request?.method} ${data.name}`}
-          <DropdownMenuTrigger asChild>
-            <MoreHorizontal className=" absolute right-0" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            side={"right"}
-            align={"start"}
-            className="min-w-56 rounded-lg"
-          >
-            <DropdownMenuItem asChild>
-              <a href={"item.url"}>{"item"}</a>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuButton>
-    );
-  }
-  // console.log(item);
 
   return (
     <SidebarMenuItem>
@@ -218,7 +194,8 @@ function TreeMenu({ item }: TreeMenuProps) {
         </CollapsibleTrigger>
         <CollapsibleContent className="pr-0 mr-0">
           <SidebarMenuSub className="pr-0 mr-0">
-            {item?.item&& item?.item?.length > 0 &&
+            {item?.item &&
+              item?.item?.length > 0 &&
               item.item.map((subItem, index) => (
                 <TreeMenu key={index} item={subItem as CollectionItem} />
               ))}
