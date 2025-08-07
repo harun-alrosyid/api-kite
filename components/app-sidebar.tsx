@@ -1,15 +1,14 @@
 "use client";
 
-import { ChevronRight, Command, File, Folder, Inbox } from 'lucide-react';
+import { Command, File, Inbox } from 'lucide-react';
 import * as React from 'react';
 
 import { NavUser } from '@/components/nav-user';
 import {
     Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader,
-    SidebarInput, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, useSidebar
+    SidebarInput, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar
 } from '@/components/ui/sidebar';
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 import TreeMenu from './ui/treeMenu';
 
 // This is sample data
